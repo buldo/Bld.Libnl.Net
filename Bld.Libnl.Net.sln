@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33626.354
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bld.Libnl.Net", "Bld.Libnl.Net\Bld.Libnl.Net.csproj", "{A3DDEDD6-321A-4F47-9136-537226F3F6E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bld.Libnl.Net.Demo", "Bld.Libnl.Net.Demo\Bld.Libnl.Net.Demo.csproj", "{7A9D53DB-9D32-4BD5-84F6-B2FB8643B887}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A3DDEDD6-321A-4F47-9136-537226F3F6E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3DDEDD6-321A-4F47-9136-537226F3F6E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3DDEDD6-321A-4F47-9136-537226F3F6E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A9D53DB-9D32-4BD5-84F6-B2FB8643B887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A9D53DB-9D32-4BD5-84F6-B2FB8643B887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A9D53DB-9D32-4BD5-84F6-B2FB8643B887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A9D53DB-9D32-4BD5-84F6-B2FB8643B887}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
