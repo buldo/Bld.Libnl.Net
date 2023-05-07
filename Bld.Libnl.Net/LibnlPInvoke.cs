@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Bld.Libnl.Net.Handles;
 
 namespace Bld.Libnl.Net;
 
@@ -60,7 +61,7 @@ public static partial class LibnlPInvoke
     /// <param name="kind">callback kind to be used for initialization</param>
     /// <returns>Newly allocated callback handle or NULL</returns>
     [LibraryImport(LibName, EntryPoint = "nl_cb_alloc")]
-    public static partial IntPtr nl_cb_alloc(nl_cb_kind kind);
+    public static partial CallbackHandle nl_cb_alloc(nl_cb_kind kind);
 
     /// <summary>
     ///
@@ -73,6 +74,29 @@ public static partial class LibnlPInvoke
     /// <returns></returns>
     [LibraryImport(LibName, EntryPoint = "nl_cb_set")]
     public static partial int nl_cb_set(IntPtr cb, nl_cb_type type, nl_cb_kind kind, nl_recvmsg_msg_cb_t func, IntPtr arg);
+
+    /// <summary>
+    /// Allocate a new netlink message with the default maximum payload size.
+    /// </summary>
+    /// <returns>Newly allocated netlink message or NULL</returns>
+    /// <remarks>
+    /// Allocates a new netlink message without any further payload. The
+    /// maximum payload size defaults to PAGESIZE or as otherwise specified
+    /// with nlmsg_set_default_size().
+    /// </remarks>
+    [LibraryImport(LibName, EntryPoint = "nlmsg_alloc")]
+    public static partial NetlinkMessageHandle nlmsg_alloc();
+
+
+    /// <summary>
+    /// Release a reference from an netlink message
+    /// </summary>
+    /// <param name="msg">message to release reference from</param>
+    /// <remarks>
+    /// Frees memory after the last reference has been released.
+    /// </remarks>
+    [LibraryImport(LibName, EntryPoint = "nlmsg_free")]
+    public static partial void nlmsg_free(IntPtr msg);
 
     /// <summary>
     /// Callback types

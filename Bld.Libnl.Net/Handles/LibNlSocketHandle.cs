@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using static Bld.Libnl.Net.LibnlPInvoke;
 
-namespace Bld.Libnl.Net;
+namespace Bld.Libnl.Net.Handles;
 
 public class LibNlSocketHandle : SafeHandle
 {
@@ -8,9 +9,11 @@ public class LibNlSocketHandle : SafeHandle
     {
     }
 
+    public override bool IsInvalid => handle == IntPtr.Zero;
+
     public void SetBufferSize(int rxBufSize, int txBufSize)
     {
-        LibnlPInvoke.nl_socket_set_buffer_size(handle, rxBufSize, txBufSize);
+        nl_socket_set_buffer_size(handle, rxBufSize, txBufSize);
     }
 
     public void Connect()
@@ -35,10 +38,8 @@ public class LibNlSocketHandle : SafeHandle
 
     protected override bool ReleaseHandle()
     {
-        LibnlPInvoke.nl_close(handle);
-        LibnlPInvoke.nl_socket_free(handle);
+        nl_close(handle);
+        nl_socket_free(handle);
         return true;
     }
-
-    public override bool IsInvalid => handle == IntPtr.Zero;
 }
