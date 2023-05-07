@@ -1,17 +1,15 @@
-﻿using System.Net.Sockets;
-
-namespace Bld.Libnl.Net;
+﻿namespace Bld.Libnl.Net;
 
 public class LibnlWrapper
 {
     private readonly Nl80211State _state;
-    
+
     private readonly IntPtr _callBack1;
     private readonly IntPtr _callBack2;
-    
+
     public LibnlWrapper()
     {
-        
+
         var libNlSocket = LibnlPInvoke.nl_socket_alloc();
         if (libNlSocket == IntPtr.Zero)
         {
@@ -29,7 +27,7 @@ public class LibnlWrapper
         }
 
         var familyIdentifier = LibnlGenlPInvoke.genl_ctrl_resolve(libNlSocket, "nl80211");
-        if (familyIdentifier < 0) 
+        if (familyIdentifier < 0)
         {
             LibnlPInvoke.nl_close(libNlSocket);
             LibnlPInvoke.nl_socket_free(libNlSocket);
@@ -41,7 +39,7 @@ public class LibnlWrapper
             LibNlSocket = libNlSocket,
             FamilyIdentifier = familyIdentifier
         };
-        
+
         // _callBack1 = LibnlPInvoke.nl_cb_alloc(LibnlPInvoke.nl_cb_kind.NL_CB_DEFAULT);
         // _callBack2 = LibnlPInvoke.nl_cb_alloc(LibnlPInvoke.nl_cb_kind.NL_CB_DEFAULT);
         // if (_callBack1 == IntPtr.Zero || _callBack2 == IntPtr.Zero)
@@ -52,21 +50,21 @@ public class LibnlWrapper
         // }
         //
         // LibnlPInvoke.nl_cb_set(
-        //     _callBack1, 
-        //     LibnlPInvoke.nl_cb_type.NL_CB_VALID, 
-        //     LibnlPInvoke.nl_cb_kind.NL_CB_CUSTOM, 
+        //     _callBack1,
+        //     LibnlPInvoke.nl_cb_type.NL_CB_VALID,
+        //     LibnlPInvoke.nl_cb_kind.NL_CB_CUSTOM,
         //     getWifiName_callback, w);
         // LibnlPInvoke.nl_cb_set(
-        //     _callBack1, 
-        //     LibnlPInvoke.nl_cb_type.NL_CB_FINISH, 
+        //     _callBack1,
+        //     LibnlPInvoke.nl_cb_type.NL_CB_FINISH,
         //     LibnlPInvoke.nl_cb_kind.NL_CB_CUSTOM,
         //     finish_handler,
         //     &(nl->result1));
         // LibnlPInvoke.nl_cb_set(
-        //     _callBack1, 
+        //     _callBack1,
         //     LibnlPInvoke.nl_cb_type.NL_CB_VALID,
         //     LibnlPInvoke.nl_cb_kind.NL_CB_CUSTOM,
-        //     getWifiInfo_callback, 
+        //     getWifiInfo_callback,
         //     w);
         // LibnlPInvoke.nl_cb_set(
         //     _callBack2,
