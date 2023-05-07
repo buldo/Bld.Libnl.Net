@@ -1,4 +1,21 @@
-﻿namespace Bld.Libnl.Net;
+﻿using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
+
+namespace Bld.Libnl.Net;
+
+public class CallbackHandler : SafeHandle
+{
+    public CallbackHandler(IntPtr invalidHandleValue, bool ownsHandle) : base(invalidHandleValue, ownsHandle)
+    {
+    }
+
+    protected override bool ReleaseHandle()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool IsInvalid => handle == IntPtr.Zero;
+}
 
 public class LibnlWrapper
 {
@@ -11,28 +28,15 @@ public class LibnlWrapper
     {
 
         var libNlSocket = LibnlPInvoke.nl_socket_alloc();
-        if (libNlSocket == IntPtr.Zero)
+        if (libNlSocket.IsInvalid)
         {
             throw new Exception("Failed to allocate netlink socket");
         }
 
-        LibnlPInvoke.nl_socket_set_buffer_size(libNlSocket, 8192, 8192);
+        libNlSocket.SetBufferSize(8192, 8192);
+        libNlSocket.Connect();
 
-        var connectResult = LibnlGenlPInvoke.genl_connect(libNlSocket);
-        if (connectResult != 0)
-        {
-            LibnlPInvoke.nl_close(libNlSocket);
-            LibnlPInvoke.nl_socket_free(libNlSocket);
-            throw new Exception($"genl_connect error. Result: {connectResult}");
-        }
-
-        var familyIdentifier = LibnlGenlPInvoke.genl_ctrl_resolve(libNlSocket, "nl80211");
-        if (familyIdentifier < 0)
-        {
-            LibnlPInvoke.nl_close(libNlSocket);
-            LibnlPInvoke.nl_socket_free(libNlSocket);
-            throw new Exception("Nl80211 interface not found");
-        }
+        var familyIdentifier = libNlSocket.CtrlResolve("nl80211");
 
         _state = new Nl80211State()
         {

@@ -18,7 +18,7 @@ public static partial class LibnlPInvoke
     /// </summary>
     /// <returns>Newly allocated netlink socket or NULL</returns>
     [LibraryImport(LibName, EntryPoint = "nl_socket_alloc")]
-    public static partial IntPtr nl_socket_alloc();
+    public static partial LibNlSocketHandle nl_socket_alloc();
 
     /// <summary>
     /// Close Netlink socket
