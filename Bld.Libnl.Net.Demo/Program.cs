@@ -5,4 +5,4 @@ using Bld.Libnl.Net;
 Console.WriteLine("Hello, World!");
 
 var libnlWrapper = new Nl80211Wrapper();
-var message = await libnlWrapper.ExecuteCommand();
+libnlWrapper.SendMessage(MessageFlags.NLM_F_DUMP, Nl80211Command.NL80211_CMD_GET_WIPHY);

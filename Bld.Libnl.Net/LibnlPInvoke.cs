@@ -67,13 +67,30 @@ public static partial class LibnlPInvoke
     public static partial CallbackHandle nl_cb_alloc(nl_cb_kind kind);
 
     /// <summary>
-    ///
+    /// Modify the callback handler associated with the socket
     /// </summary>
-    /// <param name="cb"></param>
-    /// <param name="type"></param>
-    /// <param name="kind"></param>
-    /// <param name="func"></param>
-    /// <param name="arg"></param>
+    /// <param name="sk">Netlink socket</param>
+    /// <param name="type">which type callback to set</param>
+    /// <param name="kind">kind of callback</param>
+    /// <param name="func">callback function</param>
+    /// <param name="arg">argument to be passed to callback function</param>
+    /// <returns>0 on success or a negative error code</returns>
+    [LibraryImport(LibName, EntryPoint = "nl_socket_modify_cb")]
+    public static partial int nl_socket_modify_cb(
+        IntPtr sk,
+        nl_cb_type type,
+        nl_cb_kind kind,
+        nl_recvmsg_msg_cb_t func,
+        IntPtr arg);
+
+    /// <summary>
+    /// Set up a callback
+    /// </summary>
+    /// <param name="cb">callback set</param>
+    /// <param name="type">callback to modify</param>
+    /// <param name="kind">kind of implementation</param>
+    /// <param name="func">callback function (NL_CB_CUSTOM)</param>
+    /// <param name="arg">argument passed to callback</param>
     /// <returns></returns>
     [LibraryImport(LibName, EntryPoint = "nl_cb_set")]
     public static partial int nl_cb_set(IntPtr cb, nl_cb_type type, nl_cb_kind kind, nl_recvmsg_msg_cb_t func, IntPtr arg);
@@ -100,6 +117,53 @@ public static partial class LibnlPInvoke
     /// </remarks>
     [LibraryImport(LibName, EntryPoint = "nlmsg_free")]
     public static partial void nlmsg_free(IntPtr msg);
+
+    /// <summary>
+    /// Finalize and transmit Netlink message
+    /// </summary>
+    /// <param name="sk">Netlink socket (required)</param>
+    /// <param name="msg">Netlink message (required)</param>
+    /// <returns>Number of bytes sent or a negative error code.</returns>
+    /// <remarks>
+    /// Finalizes the message by passing it to `nl_complete_msg()` and transmits it
+    /// by passing it to `nl_send()`.
+    /// This function triggers the `NL_CB_MSG_OUT` callback.
+    /// </remarks>
+    [LibraryImport(LibName, EntryPoint = "nl_send_auto")]
+    public static partial int nl_send_auto(IntPtr sk, IntPtr msg);
+
+
+    /// <summary>
+    /// Receive a set of message from a netlink socket using handlers in nl_sock.
+    /// </summary>
+    /// <param name="sk">Netlink socket</param>
+    /// <returns>0 on success or a negative error code from nl_recv()</returns>
+    /// <remarks>
+    /// Calls nl_recvmsgs() with the handlers configured in the netlink socket
+    /// </remarks>
+    [LibraryImport(LibName, EntryPoint = "nl_recvmsgs_default")]
+    public static partial int nl_recvmsgs_default(IntPtr sk);
+
+    /// <summary>
+    /// Callback actions
+    /// </summary>
+    public enum nl_cb_action
+    {
+        /// <summary>
+        /// Proceed with wathever would come next
+        /// </summary>
+        NL_OK,
+
+        /// <summary>
+        /// Skip this message
+        /// </summary>
+        NL_SKIP,
+
+        /// <summary>
+        /// Stop parsing altogether and discard remaining messages
+        /// </summary>
+        NL_STOP,
+    };
 
     /// <summary>
     /// Callback types

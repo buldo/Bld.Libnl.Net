@@ -36,6 +36,33 @@ public class LibNlSocketHandle : SafeHandle
         return familyIdentifier;
     }
 
+    public void RecvMsgsDefault()
+    {
+        LibnlPInvoke.nl_recvmsgs_default(handle);
+    }
+
+    public void SendAuto(NetlinkMessageHandle msg)
+    {
+        var sentBytes = nl_send_auto(handle, msg.DangerousGetHandle());
+        if (sentBytes < 0)
+        {
+            throw new Exception($"nl_send_auto error: {sentBytes}");
+        }
+    }
+
+    public void ModifyCallback(
+        nl_cb_type type,
+        nl_cb_kind kind,
+        nl_recvmsg_msg_cb_t func,
+        IntPtr arg)
+    {
+        var modResult = nl_socket_modify_cb(handle, type, kind, func, arg);
+        if (modResult < 0)
+        {
+            throw new Exception($"nl_socket_modify_cb error: {modResult}");
+        }
+    }
+
     protected override bool ReleaseHandle()
     {
         nl_close(handle);
