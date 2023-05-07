@@ -7,6 +7,9 @@ public static partial class LibnlPInvoke
 {
     private const string LibName = "libnl-3.so.200";
 
+    public const UInt32 NL_AUTO_PORT = 0;
+    public const UInt32 NL_AUTO_SEQ = 0;
+
     /// <summary>
     /// nl_recvmsgs() callback for message processing customization
     /// msg netlink message being processed

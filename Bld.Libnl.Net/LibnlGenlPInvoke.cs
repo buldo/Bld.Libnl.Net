@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 
 namespace Bld.Libnl.Net;
@@ -33,4 +34,25 @@ public static partial class LibnlGenlPInvoke
     /// </remarks>
     [LibraryImport(LibName, EntryPoint = "genl_ctrl_resolve", StringMarshalling = StringMarshalling.Utf8)]
     public static partial int genl_ctrl_resolve(IntPtr sk, string name);
+
+    /// <summary>
+    /// Add Generic Netlink headers to Netlink message
+    /// </summary>
+    /// <param name="msg">Netlink message object</param>
+    /// <param name="port">Netlink port or NL_AUTO_PORT</param>
+    /// <param name="seq">Sequence number of message or NL_AUTO_SEQ</param>
+    /// <param name="family">Numeric family identifier</param>
+    /// <param name="hdrlen">Length of user header</param>
+    /// <param name="flags">Additional Netlink message flags (optional)</param>
+    /// <param name="cmd">Numeric command identifier</param>
+    /// <param name="version">Interface version</param>
+    /// <returns>Pointer to user header or NULL if an error occurred</returns>
+    /// <remarks>
+    /// Calls nlmsg_put() on the specified message object to reserve space for
+    /// the Netlink header, the Generic Netlink header, and a user header of
+    /// specified length.Fills out the header fields with the specified
+    /// parameters.
+    /// </remarks>
+    [LibraryImport(LibName, EntryPoint = "genlmsg_put")]
+    public static partial IntPtr genlmsg_put(IntPtr msg, UInt32 port, UInt32 seq, int family, int hdrlen, MessageFlags flags, byte cmd, byte version);
 }
