@@ -97,6 +97,14 @@ public class Nl80211Wrapper
             {
                 wiPhy.Id = nla_get_u32(idAttr);
             }
+
+            for (int i = 1; i < (int)Nl80211Attrs.__NL80211_ATTR_AFTER_LAST; i++)
+            {
+                if (attributesArray[i] == null)
+                {
+                    Console.WriteLine($"{(Nl80211Attrs)i}");
+                }
+            }
         }
 
         Console.WriteLine("Received");
