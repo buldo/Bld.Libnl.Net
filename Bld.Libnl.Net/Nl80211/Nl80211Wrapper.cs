@@ -74,7 +74,7 @@ public class Nl80211Wrapper
         var head = genlmsg_attrdata(messageDataPointer, 0);
         var msgLen = genlmsg_attrlen(messageDataPointer, 0);
 
-        var wiPhy = new Wiphy();
+        var wiPhy = new WiphyMessage();
 
         unsafe
         {
@@ -86,15 +86,21 @@ public class Nl80211Wrapper
                 msgLen,
                 IntPtr.Zero);
 
-
-            if (attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME] != null)
+            var nameAttr = attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME];
+            if (nameAttr != null)
             {
-                wiPhy.Name = nla_get_stringToString(attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME]);
+                wiPhy.Name = nla_get_stringToString(nameAttr);
+            }
+
+            var idAttr = attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY];
+            if (idAttr != null)
+            {
+                wiPhy.Id = nla_get_u32(idAttr);
             }
         }
 
         Console.WriteLine("Received");
-        Console.WriteLine(wiPhy.Name);
+        Console.WriteLine($"Name: {wiPhy.Name}; Id:{wiPhy.Name}");
         return (int)nl_cb_action.NL_SKIP;
     }
 
@@ -105,14 +111,16 @@ public class Nl80211Wrapper
         return (int)nl_cb_action.NL_SKIP;
     }
 
-    public List<Wiphy> DumpWiphy()
+    public List<WiphyMessage> DumpWiphy()
     {
         SendMessage(MessageFlags.NLM_F_DUMP, Nl80211Command.NL80211_CMD_GET_WIPHY);
-        return new List<Wiphy>();
+        return new List<WiphyMessage>();
     }
 }
 
-public class Wiphy
+public class WiphyMessage
 {
     public string? Name { get; set; }
+
+    public uint? Id { get; set; }
 }

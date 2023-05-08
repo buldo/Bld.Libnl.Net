@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
@@ -226,6 +227,14 @@ public static partial class LibnlPInvoke
         var strRef = nla_get_string(nla);
         return Utf8StringMarshaller.ConvertToManaged(strRef);
     }
+
+    /// <summary>
+    /// Return payload of 32 bit integer attribute.
+    /// </summary>
+    /// <param name="nla">32 bit integer attribute</param>
+    /// <returns>Payload as 32 bit integer.</returns>
+    [LibraryImport(LibName, EntryPoint = "nla_get_u32")]
+    public static unsafe partial UInt32 nla_get_u32(nlattr* nla);
 
     /// <summary>
     /// Callback actions
