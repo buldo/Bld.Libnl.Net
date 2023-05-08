@@ -12,6 +12,8 @@ public class Nl80211Wrapper
     private readonly LibNlSocketHandle _libNlSocket;
     private readonly int _familyIdentifier;
 
+    private bool _isCurrentCommandRunning = false;
+
     public Nl80211Wrapper()
     {
 
@@ -58,7 +60,8 @@ public class Nl80211Wrapper
 
         _libNlSocket.SendAuto(messageHandle);
 
-        while (true)
+        _isCurrentCommandRunning = true;
+        while (_isCurrentCommandRunning)
         {
             _libNlSocket.RecvMsgsDefault();
         }
@@ -72,6 +75,7 @@ public class Nl80211Wrapper
 
     private int FinishSocketCallback(IntPtr msg, IntPtr arg)
     {
+        _isCurrentCommandRunning = false;
         Console.WriteLine("Finish");
         return (int)nl_cb_action.NL_SKIP;
     }
