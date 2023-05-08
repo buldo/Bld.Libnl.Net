@@ -1,4 +1,4 @@
-﻿namespace Bld.Libnl.Net;
+﻿namespace Bld.Libnl.Net.Nl80211;
 
 /**
  * enum nl80211_commands - supported nl80211 commands

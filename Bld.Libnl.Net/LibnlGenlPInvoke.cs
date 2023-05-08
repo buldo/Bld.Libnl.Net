@@ -55,4 +55,22 @@ public static partial class LibnlGenlPInvoke
     /// </remarks>
     [LibraryImport(LibName, EntryPoint = "genlmsg_put")]
     public static partial IntPtr genlmsg_put(IntPtr msg, UInt32 port, UInt32 seq, int family, int hdrlen, MessageFlags flags, byte cmd, byte version);
+
+    /// <summary>
+    /// Return pointer to message attributes
+    /// </summary>
+    /// <param name="gnlh">Generic Netlink message header</param>
+    /// <param name="hdrlen">Length of user header</param>
+    /// <returns>Pointer to the start of the message's attributes section.</returns>
+    [LibraryImport(LibName, EntryPoint = "genlmsg_attrdata")]
+    public static partial IntPtr genlmsg_attrdata(IntPtr gnlh, int hdrlen);
+
+    /// <summary>
+    /// Return length of message attributes
+    /// </summary>
+    /// <param name="gnlh">Generic Netlink message header</param>
+    /// <param name="hdrlen">Length of user header</param>
+    /// <returns>Length of the message section containing attributes in number of bytes</returns>
+    [LibraryImport(LibName, EntryPoint = "genlmsg_attrlen")]
+    public static partial int genlmsg_attrlen(IntPtr gnlh, int hdrlen);
 }

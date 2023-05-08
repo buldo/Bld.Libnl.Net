@@ -1,8 +1,8 @@
 ﻿using Bld.Libnl.Net.Handles;
-
 using static Bld.Libnl.Net.LibnlPInvoke;
+using static Bld.Libnl.Net.LibnlGenlPInvoke;
 
-namespace Bld.Libnl.Net;
+namespace Bld.Libnl.Net.Nl80211;
 
 /// <summary>
 /// Methods not re-enterable
@@ -69,6 +69,21 @@ public class Nl80211Wrapper
 
     private int SocketCallback(IntPtr msg, IntPtr arg)
     {
+        var header = nlmsg_hdr(msg);
+        var messageDataPointer = nlmsg_data(header);
+        var head = genlmsg_attrdata(messageDataPointer, 0);
+        var msgLen = genlmsg_attrlen(messageDataPointer, 0);
+        unsafe
+        {
+            var attributesArray = new nlattr*[(int)Nl80211Attrs.NL80211_ATTR_MAX + 1];
+            nla_parse(
+                attributesArray,
+                (int)Nl80211Attrs.NL80211_ATTR_MAX,
+                head,
+                msgLen,
+                IntPtr.Zero);
+        }
+
         Console.WriteLine("Received");
         return (int)nl_cb_action.NL_SKIP;
     }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Bld.Libnl.Net.Handles;
 
@@ -24,7 +25,7 @@ public static partial class LibnlPInvoke
     /// <param name="nlerr">netlink error message being processed</param>
     /// <param name="arg">argument passed on through caller</param>
     /// <returns></returns>
-    public delegate int nl_recvmsg_err_cb_t (IntPtr nla,IntPtr nlerr, IntPtr arg);
+    public delegate int nl_recvmsg_err_cb_t(IntPtr nla, IntPtr nlerr, IntPtr arg);
 
     /// <summary>
     /// Allocate new netlink socket
@@ -102,7 +103,8 @@ public static partial class LibnlPInvoke
     /// <param name="arg">argument passed to callback</param>
     /// <returns></returns>
     [LibraryImport(LibName, EntryPoint = "nl_cb_set")]
-    public static partial int nl_cb_set(IntPtr cb, nl_cb_type type, nl_cb_kind kind, nl_recvmsg_msg_cb_t func, IntPtr arg);
+    public static partial int nl_cb_set(IntPtr cb, nl_cb_type type, nl_cb_kind kind, nl_recvmsg_msg_cb_t func,
+        IntPtr arg);
 
     /// <summary>
     /// Set up an error callback
@@ -163,6 +165,46 @@ public static partial class LibnlPInvoke
     public static partial int nl_recvmsgs_default(IntPtr sk);
 
     /// <summary>
+    /// Return actual netlink message
+    /// </summary>
+    /// <param name="n">netlink message</param>
+    /// <returns>A pointer to the netlink message.</returns>
+    /// <remarks>
+    /// Returns the actual netlink message casted to the type of the netlink
+    /// message header.
+    /// </remarks>
+    [LibraryImport(LibName, EntryPoint = "nlmsg_hdr")]
+    public static partial IntPtr nlmsg_hdr(IntPtr n);
+
+    /// <summary>
+    /// Return pointer to message payload
+    /// </summary>
+    /// <param name="nlh">Netlink message header</param>
+    /// <returns>Pointer to start of message payload.</returns>
+    [LibraryImport(LibName, EntryPoint = "nlmsg_data")]
+    public static partial IntPtr nlmsg_data(IntPtr nlh);
+
+    /// <summary>
+    /// Create attribute index based on a stream of attributes
+    /// </summary>
+    /// <param name="tb">Index array to be filled (maxtype+1 elements)</param>
+    /// <param name="maxtype">Maximum attribute type expected and accepted</param>
+    /// <param name="head">Head of attribute stream</param>
+    /// <param name="len">Length of attribute stream</param>
+    /// <param name="policy">Attribute validation policy</param>
+    /// <returns>0 on success or a negative error code</returns>
+    /// <remarks>
+    /// Iterates over the stream of attributes and stores a pointer to each
+    /// attribute in the index array using the attribute type as index to
+    /// the array. Attribute with a type greater than the maximum type
+    /// specified will be silently ignored in order to maintain backwards
+    /// compatibility. If a policy is not NULL, the attribute will be
+    /// validated using the specified policy
+    /// </remarks>
+    [LibraryImport(LibName, EntryPoint = "nla_parse")]
+    public static unsafe partial int nla_parse(nlattr* []tb, int maxtype, IntPtr head, int len, IntPtr policy);
+
+    /// <summary>
     /// Callback actions
     /// </summary>
     public enum nl_cb_action
@@ -186,7 +228,8 @@ public static partial class LibnlPInvoke
     /// <summary>
     /// Callback types
     /// </summary>
-    public enum nl_cb_type {
+    public enum nl_cb_type
+    {
         /// <summary>
         /// Message is valid
         /// </summary>
@@ -266,3 +309,10 @@ public static partial class LibnlPInvoke
         NL_CB_CUSTOM,
     };
 }
+
+[StructLayout(LayoutKind.Sequential)]
+public struct nlattr
+{
+    UInt16 nla_len;
+    UInt16 nla_type;
+};
