@@ -89,13 +89,13 @@ public class Nl80211Wrapper
             var nameAttr = attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME];
             if (nameAttr != null)
             {
-                wiPhy.Name = nla_get_stringToString(nameAttr);
+                wiPhy.WiphyName = nla_get_stringToString(nameAttr);
             }
 
             var idAttr = attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY];
             if (idAttr != null)
             {
-                wiPhy.Id = nla_get_u32(idAttr);
+                wiPhy.Wiphy = nla_get_u32(idAttr);
             }
 
             for (int i = 1; i < (int)Nl80211Attrs.__NL80211_ATTR_AFTER_LAST; i++)
@@ -108,7 +108,7 @@ public class Nl80211Wrapper
         }
 
         Console.WriteLine("Received");
-        Console.WriteLine($"Name: {wiPhy.Name}; Id:{wiPhy.Id}");
+        Console.WriteLine($"Name: {wiPhy.WiphyName}; Id:{wiPhy.Wiphy}");
         return (int)nl_cb_action.NL_SKIP;
     }
 
