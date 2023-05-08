@@ -89,7 +89,7 @@ public class Nl80211Wrapper
 
             if (attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME] != null)
             {
-                var name = nla_get_string(attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME]);
+                wiPhy.Name = nla_get_stringToString(attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME]);
             }
         }
 

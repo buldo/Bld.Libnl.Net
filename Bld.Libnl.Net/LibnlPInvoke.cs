@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Bld.Libnl.Net.Handles;
 
 namespace Bld.Libnl.Net;
@@ -217,8 +218,14 @@ public static partial class LibnlPInvoke
     /// </summary>
     /// <param name="nla">String attribute</param>
     /// <returns>Pointer to attribute payload</returns>
-    [LibraryImport(LibName, EntryPoint = "nla_get_string", StringMarshalling = StringMarshalling.Utf8)]
-    public static unsafe partial string nla_get_string(nlattr *nla);
+    [LibraryImport(LibName, EntryPoint = "nla_get_string")]
+    public static unsafe partial byte* nla_get_string(nlattr *nla);
+
+    public static unsafe string? nla_get_stringToString(nlattr* nla)
+    {
+        var strRef = nla_get_string(nla);
+        return Utf8StringMarshaller.ConvertToManaged(strRef);
+    }
 
     /// <summary>
     /// Callback actions
