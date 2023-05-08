@@ -205,6 +205,22 @@ public static partial class LibnlPInvoke
     public static unsafe partial int nla_parse(nlattr* []tb, int maxtype, IntPtr head, int len, IntPtr policy);
 
     /// <summary>
+    /// Return value of 8 bit integer attribute.
+    /// </summary>
+    /// <param name="nla">8 bit integer attribute</param>
+    /// <returns>Payload as 8 bit integer.</returns>
+    [LibraryImport(LibName, EntryPoint = "nla_get_u8")]
+    public static unsafe partial byte nla_get_u8(nlattr* nla);
+
+    /// <summary>
+    /// Return payload of string attribute
+    /// </summary>
+    /// <param name="nla">String attribute</param>
+    /// <returns>Pointer to attribute payload</returns>
+    [LibraryImport(LibName, EntryPoint = "nla_get_string", StringMarshalling = StringMarshalling.Utf8)]
+    public static unsafe partial string nla_get_string(nlattr *nla);
+
+    /// <summary>
     /// Callback actions
     /// </summary>
     public enum nl_cb_action

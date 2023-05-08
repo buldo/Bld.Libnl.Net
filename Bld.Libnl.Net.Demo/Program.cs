@@ -6,4 +6,4 @@ using Bld.Libnl.Net.Nl80211;
 Console.WriteLine("Hello, World!");
 
 var libnlWrapper = new Nl80211Wrapper();
-libnlWrapper.SendMessage(MessageFlags.NLM_F_DUMP, Nl80211Command.NL80211_CMD_GET_WIPHY);
+var phys = libnlWrapper.DumpWiphy();
