@@ -4,6 +4,9 @@ using static Bld.Libnl.Net.LibnlPInvoke;
 
 namespace Bld.Libnl.Net;
 
+/// <summary>
+/// Methods not re-enterable
+/// </summary>
 public class Nl80211Wrapper
 {
     private readonly LibNlSocketHandle _libNlSocket;
@@ -27,6 +30,12 @@ public class Nl80211Wrapper
             LibnlPInvoke.nl_cb_type.NL_CB_VALID,
             LibnlPInvoke.nl_cb_kind.NL_CB_CUSTOM,
             SocketCallback,
+            IntPtr.Zero);
+
+        _libNlSocket.ModifyCallback(
+            LibnlPInvoke.nl_cb_type.NL_CB_FINISH,
+            LibnlPInvoke.nl_cb_kind.NL_CB_CUSTOM,
+            FinishSocketCallback,
             IntPtr.Zero);
     }
 
@@ -58,6 +67,12 @@ public class Nl80211Wrapper
     private int SocketCallback(IntPtr msg, IntPtr arg)
     {
         Console.WriteLine("Received");
+        return (int)nl_cb_action.NL_SKIP;
+    }
+
+    private int FinishSocketCallback(IntPtr msg, IntPtr arg)
+    {
+        Console.WriteLine("Finish");
         return (int)nl_cb_action.NL_SKIP;
     }
 }

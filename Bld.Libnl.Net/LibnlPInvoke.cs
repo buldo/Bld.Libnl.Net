@@ -18,6 +18,15 @@ public static partial class LibnlPInvoke
     public delegate int nl_recvmsg_msg_cb_t(IntPtr msg, IntPtr arg);
 
     /// <summary>
+    /// nl_recvmsgs() callback for error message processing customization
+    /// </summary>
+    /// <param name="nla">netlink address of the peer</param>
+    /// <param name="nlerr">netlink error message being processed</param>
+    /// <param name="arg">argument passed on through caller</param>
+    /// <returns></returns>
+    public delegate int nl_recvmsg_err_cb_t (IntPtr nla,IntPtr nlerr, IntPtr arg);
+
+    /// <summary>
     /// Allocate new netlink socket
     /// </summary>
     /// <returns>Newly allocated netlink socket or NULL</returns>
@@ -96,6 +105,17 @@ public static partial class LibnlPInvoke
     public static partial int nl_cb_set(IntPtr cb, nl_cb_type type, nl_cb_kind kind, nl_recvmsg_msg_cb_t func, IntPtr arg);
 
     /// <summary>
+    /// Set up an error callback
+    /// </summary>
+    /// <param name="cb">callback set</param>
+    /// <param name="kind">kind of callback</param>
+    /// <param name="func">callback function</param>
+    /// <param name="arg">argument to be passed to callback function</param>
+    /// <returns></returns>
+    [LibraryImport(LibName, EntryPoint = "nl_cb_err")]
+    public static partial int nl_cb_err(IntPtr cb, nl_cb_kind kind, nl_recvmsg_err_cb_t func, IntPtr arg);
+
+    /// <summary>
     /// Allocate a new netlink message with the default maximum payload size.
     /// </summary>
     /// <returns>Newly allocated netlink message or NULL</returns>
@@ -106,7 +126,6 @@ public static partial class LibnlPInvoke
     /// </remarks>
     [LibraryImport(LibName, EntryPoint = "nlmsg_alloc")]
     public static partial NetlinkMessageHandle nlmsg_alloc();
-
 
     /// <summary>
     /// Release a reference from an netlink message
@@ -131,7 +150,6 @@ public static partial class LibnlPInvoke
     /// </remarks>
     [LibraryImport(LibName, EntryPoint = "nl_send_auto")]
     public static partial int nl_send_auto(IntPtr sk, IntPtr msg);
-
 
     /// <summary>
     /// Receive a set of message from a netlink socket using handlers in nl_sock.
