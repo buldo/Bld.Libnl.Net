@@ -100,7 +100,7 @@ public class Nl80211Wrapper
         }
 
         Console.WriteLine("Received");
-        Console.WriteLine($"Name: {wiPhy.Name}; Id:{wiPhy.Name}");
+        Console.WriteLine($"Name: {wiPhy.Name}; Id:{wiPhy.Id}");
         return (int)nl_cb_action.NL_SKIP;
     }
 
