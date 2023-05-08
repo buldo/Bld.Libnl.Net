@@ -125,10 +125,3 @@ public class Nl80211Wrapper
         return new List<WiphyMessage>();
     }
 }
-
-public class WiphyMessage
-{
-    public string? Name { get; set; }
-
-    public uint? Id { get; set; }
-}
