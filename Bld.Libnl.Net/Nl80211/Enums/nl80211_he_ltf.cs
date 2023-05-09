@@ -1,0 +1,7 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_he_ltf {
+	NL80211_RATE_INFO_HE_1XLTF,
+	NL80211_RATE_INFO_HE_2XLTF,
+	NL80211_RATE_INFO_HE_4XLTF,
+};

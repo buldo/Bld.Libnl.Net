@@ -1,0 +1,9 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum plink_actions {
+	NL80211_PLINK_ACTION_NO_ACTION,
+	NL80211_PLINK_ACTION_OPEN,
+	NL80211_PLINK_ACTION_BLOCK,
+
+	NUM_NL80211_PLINK_ACTIONS,
+};

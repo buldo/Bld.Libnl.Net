@@ -1,0 +1,10 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_peer_measurement_type {
+	NL80211_PMSR_TYPE_INVALID,
+
+	NL80211_PMSR_TYPE_FTM,
+
+	NUM_NL80211_PMSR_TYPES,
+	NL80211_PMSR_TYPE_MAX = NUM_NL80211_PMSR_TYPES - 1
+};

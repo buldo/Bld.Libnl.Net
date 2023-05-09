@@ -1,0 +1,7 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_cqm_rssi_threshold_event {
+	NL80211_CQM_RSSI_THRESHOLD_EVENT_LOW,
+	NL80211_CQM_RSSI_THRESHOLD_EVENT_HIGH,
+	NL80211_CQM_RSSI_BEACON_LOSS_EVENT,
+};

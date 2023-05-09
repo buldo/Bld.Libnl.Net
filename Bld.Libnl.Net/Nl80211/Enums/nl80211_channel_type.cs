@@ -1,0 +1,8 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_channel_type {
+	NL80211_CHAN_NO_HT,
+	NL80211_CHAN_HT20,
+	NL80211_CHAN_HT40MINUS,
+	NL80211_CHAN_HT40PLUS
+};

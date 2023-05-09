@@ -1,0 +1,8 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_timeout_reason {
+	NL80211_TIMEOUT_UNSPECIFIED,
+	NL80211_TIMEOUT_SCAN,
+	NL80211_TIMEOUT_AUTH,
+	NL80211_TIMEOUT_ASSOC,
+};

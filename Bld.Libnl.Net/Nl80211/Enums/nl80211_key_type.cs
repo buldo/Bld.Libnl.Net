@@ -1,0 +1,9 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_key_type {
+	NL80211_KEYTYPE_GROUP,
+	NL80211_KEYTYPE_PAIRWISE,
+	NL80211_KEYTYPE_PEERKEY,
+
+	NUM_NL80211_KEYTYPES
+};

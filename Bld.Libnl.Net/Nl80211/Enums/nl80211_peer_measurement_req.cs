@@ -1,0 +1,12 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_peer_measurement_req {
+	__NL80211_PMSR_REQ_ATTR_INVALID,
+
+	NL80211_PMSR_REQ_ATTR_DATA,
+	NL80211_PMSR_REQ_ATTR_GET_AP_TSF,
+
+	/* keep last */
+	NUM_NL80211_PMSR_REQ_ATTRS,
+	NL80211_PMSR_REQ_ATTR_MAX = NUM_NL80211_PMSR_REQ_ATTRS - 1
+};

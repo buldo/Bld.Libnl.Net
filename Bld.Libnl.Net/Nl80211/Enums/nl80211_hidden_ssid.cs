@@ -1,0 +1,7 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_hidden_ssid {
+	NL80211_HIDDEN_SSID_NOT_IN_USE,
+	NL80211_HIDDEN_SSID_ZERO_LEN,
+	NL80211_HIDDEN_SSID_ZERO_CONTENTS
+};

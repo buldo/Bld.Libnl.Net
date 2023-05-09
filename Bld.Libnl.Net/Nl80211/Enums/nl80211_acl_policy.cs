@@ -1,0 +1,6 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_acl_policy {
+	NL80211_ACL_POLICY_ACCEPT_UNLESS_LISTED,
+	NL80211_ACL_POLICY_DENY_UNLESS_LISTED,
+};

@@ -1,0 +1,8 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_peer_measurement_status {
+	NL80211_PMSR_STATUS_SUCCESS,
+	NL80211_PMSR_STATUS_REFUSED,
+	NL80211_PMSR_STATUS_TIMEOUT,
+	NL80211_PMSR_STATUS_FAILURE,
+};

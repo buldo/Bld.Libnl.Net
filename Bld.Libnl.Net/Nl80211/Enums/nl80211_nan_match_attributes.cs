@@ -1,0 +1,11 @@
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public enum nl80211_nan_match_attributes {
+	__NL80211_NAN_MATCH_INVALID,
+	NL80211_NAN_MATCH_FUNC_LOCAL,
+	NL80211_NAN_MATCH_FUNC_PEER,
+
+	/* keep last */
+	NUM_NL80211_NAN_MATCH_ATTR,
+	NL80211_NAN_MATCH_ATTR_MAX = NUM_NL80211_NAN_MATCH_ATTR - 1
+};
