@@ -2,5 +2,10 @@
 
 public class NlaPolicyDescription
 {
-    public NetlinkAttributeType Type { get; set; }
+    public NlaPolicyDescription(NetlinkAttributeType type)
+    {
+        Type = type;
+    }
+
+    public NetlinkAttributeType Type { get; private set; }
 }
