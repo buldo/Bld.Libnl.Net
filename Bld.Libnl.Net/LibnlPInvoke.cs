@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Bld.Libnl.Net.Handles;
+using Bld.Libnl.Net.Netlink;
 
 namespace Bld.Libnl.Net;
 
@@ -205,6 +206,14 @@ public static partial class LibnlPInvoke
     /// </remarks>
     [LibraryImport(LibName, EntryPoint = "nla_parse")]
     public static unsafe partial int nla_parse(nlattr* []tb, int maxtype, IntPtr head, int len, IntPtr policy);
+
+    /// <summary>
+    /// Return type of the attribute.
+    /// </summary>
+    /// <param name="nla">Attribute</param>
+    /// <returns>Type of attribute</returns>
+    [LibraryImport(LibName, EntryPoint = "nla_type")]
+    public static unsafe partial AttributeDataType nla_type(nlattr* nla);
 
     /// <summary>
     /// Return value of 8 bit integer attribute.

@@ -1,4 +1,5 @@
 ﻿using Bld.Libnl.Net.Handles;
+using Bld.Libnl.Net.Netlink;
 using static Bld.Libnl.Net.LibnlPInvoke;
 using static Bld.Libnl.Net.LibnlGenlPInvoke;
 
@@ -69,46 +70,14 @@ public class Nl80211Wrapper
 
     private int SocketCallback(IntPtr msg, IntPtr arg)
     {
-        var header = nlmsg_hdr(msg);
-        var messageDataPointer = nlmsg_data(header);
-        var head = genlmsg_attrdata(messageDataPointer, 0);
-        var msgLen = genlmsg_attrlen(messageDataPointer, 0);
+        var message = NetlinkMessageParser.Parse<Nl80211Attrs>(msg);
 
-        var wiPhy = new WiphyMessage();
-
-        unsafe
+        foreach (var attribute in message.Attributes)
         {
-            var attributesArray = new nlattr*[(int)Nl80211Attrs.NL80211_ATTR_MAX + 1];
-            nla_parse(
-                attributesArray,
-                (int)Nl80211Attrs.NL80211_ATTR_MAX,
-                head,
-                msgLen,
-                IntPtr.Zero);
-
-            var nameAttr = attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY_NAME];
-            if (nameAttr != null)
-            {
-                wiPhy.WiphyName = nla_get_stringToString(nameAttr);
-            }
-
-            var idAttr = attributesArray[(int)Nl80211Attrs.NL80211_ATTR_WIPHY];
-            if (idAttr != null)
-            {
-                wiPhy.Wiphy = nla_get_u32(idAttr);
-            }
-
-            for (int i = 1; i < (int)Nl80211Attrs.__NL80211_ATTR_AFTER_LAST; i++)
-            {
-                if (attributesArray[i] == null)
-                {
-                    Console.WriteLine($"{(Nl80211Attrs)i}");
-                }
-            }
+            Console.WriteLine($"{attribute.Id} : {attribute.GetValue()}");
         }
-
         Console.WriteLine("Received");
-        Console.WriteLine($"Name: {wiPhy.WiphyName}; Id:{wiPhy.Wiphy}");
+        //Console.WriteLine($"Name: {wiPhy.WiphyName}; Id:{wiPhy.Wiphy}");
         return (int)nl_cb_action.NL_SKIP;
     }
 
