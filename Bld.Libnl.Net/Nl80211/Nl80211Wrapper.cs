@@ -1,5 +1,6 @@
 ﻿using Bld.Libnl.Net.Handles;
 using Bld.Libnl.Net.Netlink;
+using Bld.Libnl.Net.Nl80211.Enums;
 using static Bld.Libnl.Net.LibnlPInvoke;
 using static Bld.Libnl.Net.LibnlGenlPInvoke;
 
@@ -42,7 +43,7 @@ public class Nl80211Wrapper
             IntPtr.Zero);
     }
 
-    public void SendMessage(MessageFlags flags, Nl80211Command cmd)
+    public void SendMessage(MessageFlags flags, nl80211_commands cmd)
     {
         var messageHandle = LibnlPInvoke.nlmsg_alloc();
         if (messageHandle.IsInvalid)
@@ -70,7 +71,7 @@ public class Nl80211Wrapper
 
     private int SocketCallback(IntPtr msg, IntPtr arg)
     {
-        var message = NetlinkMessageParser.Parse<Nl80211Attrs>(msg);
+        var message = NetlinkMessageParser.Parse<nl80211_attrs>(msg);
 
         foreach (var attribute in message.Attributes)
         {
@@ -90,7 +91,7 @@ public class Nl80211Wrapper
 
     public List<WiphyMessage> DumpWiphy()
     {
-        SendMessage(MessageFlags.NLM_F_DUMP, Nl80211Command.NL80211_CMD_GET_WIPHY);
+        SendMessage(MessageFlags.NLM_F_DUMP, nl80211_commands.NL80211_CMD_GET_WIPHY);
         return new List<WiphyMessage>();
     }
 }
