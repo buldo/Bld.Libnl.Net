@@ -1,0 +1,16 @@
+using Bld.Libnl.Net.Nl80211.Enums;
+
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public static partial class NlaPolicies
+{
+public static Dictionary<string, string> nl80211_attr_cqm_policy[NL80211_ATTR_CQM_MAX + 1] = {
+	[NL80211_ATTR_CQM_RSSI_THOLD] = { .type = NLA_BINARY },
+	[NL80211_ATTR_CQM_RSSI_HYST] = { .type = NLA_U32 },
+	[NL80211_ATTR_CQM_RSSI_THRESHOLD_EVENT] = { .type = NLA_U32 },
+	[NL80211_ATTR_CQM_TXE_RATE] = { .type = NLA_U32 },
+	[NL80211_ATTR_CQM_TXE_PKTS] = { .type = NLA_U32 },
+	[NL80211_ATTR_CQM_TXE_INTVL] = { .type = NLA_U32 },
+	[NL80211_ATTR_CQM_RSSI_LEVEL] = { .type = NLA_S32 },
+};
+}

@@ -1,0 +1,11 @@
+using Bld.Libnl.Net.Nl80211.Enums;
+
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public static partial class NlaPolicies
+{
+public static Dictionary<string, string> sar_specs_policy[NL80211_SAR_ATTR_SPECS_MAX + 1] = {
+	[NL80211_SAR_ATTR_SPECS_POWER] = { .type = NLA_S32 },
+	[NL80211_SAR_ATTR_SPECS_RANGE_INDEX] = {.type = NLA_U32 },
+};
+}

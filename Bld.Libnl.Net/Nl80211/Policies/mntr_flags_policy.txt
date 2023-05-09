@@ -1,0 +1,15 @@
+using Bld.Libnl.Net.Nl80211.Enums;
+
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public static partial class NlaPolicies
+{
+public static Dictionary<string, string> static const struct nla_policy mntr_flags_policy[NL80211_MNTR_FLAG_MAX + 1] = {
+	[NL80211_MNTR_FLAG_FCSFAIL] = { .type = NLA_FLAG },
+	[NL80211_MNTR_FLAG_PLCPFAIL] = { .type = NLA_FLAG },
+	[NL80211_MNTR_FLAG_CONTROL] = { .type = NLA_FLAG },
+	[NL80211_MNTR_FLAG_OTHER_BSS] = { .type = NLA_FLAG },
+	[NL80211_MNTR_FLAG_COOK_FRAMES] = { .type = NLA_FLAG },
+	[NL80211_MNTR_FLAG_ACTIVE] = { .type = NLA_FLAG },
+};
+}

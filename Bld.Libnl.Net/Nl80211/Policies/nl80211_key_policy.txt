@@ -1,0 +1,18 @@
+using Bld.Libnl.Net.Nl80211.Enums;
+
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public static partial class NlaPolicies
+{
+public static Dictionary<string, string> static const struct nla_policy nl80211_key_policy[NL80211_KEY_MAX + 1] = {
+	[NL80211_KEY_DATA] = { .type = NLA_BINARY, .len = WLAN_MAX_KEY_LEN },
+	[NL80211_KEY_IDX] = { .type = NLA_U8 },
+	[NL80211_KEY_CIPHER] = { .type = NLA_U32 },
+	[NL80211_KEY_SEQ] = { .type = NLA_BINARY, .len = 16 },
+	[NL80211_KEY_DEFAULT] = { .type = NLA_FLAG },
+	[NL80211_KEY_DEFAULT_MGMT] = { .type = NLA_FLAG },
+	[NL80211_KEY_TYPE] = NLA_POLICY_MAX(NLA_U32, NUM_NL80211_KEYTYPES - 1),
+	[NL80211_KEY_DEFAULT_TYPES] = { .type = NLA_NESTED },
+	[NL80211_KEY_MODE] = NLA_POLICY_RANGE(NLA_U8, 0, NL80211_KEY_SET_TX),
+};
+}

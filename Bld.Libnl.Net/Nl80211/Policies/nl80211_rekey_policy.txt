@@ -1,0 +1,19 @@
+using Bld.Libnl.Net.Nl80211.Enums;
+
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public static partial class NlaPolicies
+{
+public static Dictionary<string, string> nl80211_rekey_policy[NUM_NL80211_REKEY_DATA] = {
+	[NL80211_REKEY_DATA_KEK] = {
+		.type = NLA_BINARY,
+		.len = NL80211_KEK_EXT_LEN
+	},
+	[NL80211_REKEY_DATA_KCK] = {
+		.type = NLA_BINARY,
+		.len = NL80211_KCK_EXT_LEN_32
+	},
+	[NL80211_REKEY_DATA_REPLAY_CTR] = NLA_POLICY_EXACT_LEN(NL80211_REPLAY_CTR_LEN),
+	[NL80211_REKEY_DATA_AKM] = { .type = NLA_U32 },
+};
+}

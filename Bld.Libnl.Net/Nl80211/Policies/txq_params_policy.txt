@@ -1,0 +1,14 @@
+using Bld.Libnl.Net.Nl80211.Enums;
+
+namespace Bld.Libnl.Net.Nl80211.Enums;
+
+public static partial class NlaPolicies
+{
+public static Dictionary<string, string> static const struct nla_policy txq_params_policy[NL80211_TXQ_ATTR_MAX + 1] = {
+	[NL80211_TXQ_ATTR_QUEUE]		= { .type = NLA_U8 },
+	[NL80211_TXQ_ATTR_TXOP]			= { .type = NLA_U16 },
+	[NL80211_TXQ_ATTR_CWMIN]		= { .type = NLA_U16 },
+	[NL80211_TXQ_ATTR_CWMAX]		= { .type = NLA_U16 },
+	[NL80211_TXQ_ATTR_AIFS]			= { .type = NLA_U8 },
+};
+}
