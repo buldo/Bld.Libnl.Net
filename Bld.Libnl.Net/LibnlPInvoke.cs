@@ -213,7 +213,7 @@ public static partial class LibnlPInvoke
     /// <param name="nla">Attribute</param>
     /// <returns>Type of attribute</returns>
     [LibraryImport(LibName, EntryPoint = "nla_type")]
-    public static unsafe partial AttributeDataType nla_type(nlattr* nla);
+    public static unsafe partial NetlinkAttributeType nla_type(nlattr* nla);
 
     /// <summary>
     /// Return value of 8 bit integer attribute.

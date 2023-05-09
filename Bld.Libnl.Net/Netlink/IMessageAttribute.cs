@@ -4,7 +4,7 @@ public interface IMessageAttribute<out TAttributeIdType>
 {
     TAttributeIdType Id { get; }
 
-    AttributeDataType Type { get; }
+    NetlinkAttributeType Type { get; }
 
     object GetValue();
 }

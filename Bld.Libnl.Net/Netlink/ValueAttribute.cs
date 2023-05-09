@@ -2,7 +2,7 @@
 
 public class ValueAttribute<T, TAttributeIdType> : IMessageAttribute<TAttributeIdType>
 {
-    public ValueAttribute(TAttributeIdType id, AttributeDataType type, T value)
+    public ValueAttribute(TAttributeIdType id, NetlinkAttributeType type, T value)
     {
         Id = id;
         Type = type;
@@ -11,7 +11,7 @@ public class ValueAttribute<T, TAttributeIdType> : IMessageAttribute<TAttributeI
 
     public TAttributeIdType Id { get; }
 
-    public AttributeDataType Type { get; }
+    public NetlinkAttributeType Type { get; }
 
     public T Value { get; }
 
