@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Bld.Libnl.Net.Handles;
 using Bld.Libnl.Net.Netlink;
+using Bld.Libnl.Net.Nl80211;
 
 namespace Bld.Libnl.Net;
 
