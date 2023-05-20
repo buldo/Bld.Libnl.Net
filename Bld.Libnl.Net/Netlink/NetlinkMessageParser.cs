@@ -1,6 +1,8 @@
 ﻿using Bld.Libnl.Net.Nl80211;
 using static Bld.Libnl.Net.LibnlPInvoke;
 using static Bld.Libnl.Net.LibnlGenlPInvoke;
+using Bld.Libnl.Net.Nl80211.Policies;
+using Bld.Libnl.Net.Nl80211.Enums;
 
 namespace Bld.Libnl.Net.Netlink;
 
@@ -14,7 +16,6 @@ public static class NetlinkMessageParser
         var head = genlmsg_attrdata(messageDataPointer, 0);
         var msgLen = genlmsg_attrlen(messageDataPointer, 0);
 
-        var wiPhy = new WiphyMessage();
         NetlinkMessage<TAttributeIdType> message = new();
         var idValues = Enum.GetValues<TAttributeIdType>();
         var maxValue = idValues.Max().ToInt32(null);
@@ -30,22 +31,29 @@ public static class NetlinkMessageParser
 
             foreach (var idValue in idValues)
             {
-                var attributePtr = attributesArray[idValue.ToInt32(null)];
+                var intIdValue = idValue.ToInt32(null);
+                var attributePtr = attributesArray[intIdValue];
                 if ( attributePtr != null)
                 {
-                    var attrType = nla_type(attributePtr);
-                    var attribute = attrType switch
+                    if (typeof(TAttributeIdType) == typeof(nl80211_attrs))
                     {
-                        NetlinkAttributeType.NLA_U8 => ParseU8(attributePtr, idValue),
-                        NetlinkAttributeType.NLA_U32 => ParseU32(attributePtr, idValue),
-                        NetlinkAttributeType.NLA_STRING => ParseString(attributePtr, idValue),
-                        NetlinkAttributeType.NLA_NUL_STRING => ParseString(attributePtr, idValue),
-                        _ => null
-                    };
-                    if (attribute != null)
-                    {
-                        message.Attributes.Add(attribute);
+                        if (NlaPolicies.nl80211_policy.TryGetValue((nl80211_attrs)intIdValue, out var policy))
+                        {
+                            var attribute = policy.Type switch
+                            {
+                                NetlinkAttributeType.NLA_U8 => ParseU8(attributePtr, idValue),
+                                NetlinkAttributeType.NLA_U32 => ParseU32(attributePtr, idValue),
+                                NetlinkAttributeType.NLA_STRING => ParseString(attributePtr, idValue),
+                                NetlinkAttributeType.NLA_NUL_STRING => ParseString(attributePtr, idValue),
+                                _ => null
+                            };
+                            if (attribute != null)
+                            {
+                                message.Attributes.Add(attribute);
+                            }
+                        }
                     }
+
                 }
             }
         }

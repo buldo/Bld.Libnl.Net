@@ -16,6 +16,9 @@ public class Nl80211Wrapper
 
     private bool _isCurrentCommandRunning = false;
 
+    private List<object> _currentResult;
+    private nl80211_commands _currentCommand;
+
     public Nl80211Wrapper()
     {
 
@@ -43,9 +46,9 @@ public class Nl80211Wrapper
             IntPtr.Zero);
     }
 
-    public void SendMessage(MessageFlags flags, nl80211_commands cmd)
+    private void SendMessage(MessageFlags flags, nl80211_commands cmd)
     {
-        var messageHandle = LibnlPInvoke.nlmsg_alloc();
+        var messageHandle = nlmsg_alloc();
         if (messageHandle.IsInvalid)
         {
             throw new Exception("Failed to allocate nl message");
@@ -89,9 +92,11 @@ public class Nl80211Wrapper
         return (int)nl_cb_action.NL_SKIP;
     }
 
-    public List<WiphyMessage> DumpWiphy()
+    public List<NetlinkMessage<nl80211_attrs>> DumpWiphy()
     {
+        _currentResult = new List<object>();
+        _currentCommand = nl80211_commands.NL80211_CMD_GET_WIPHY;
         SendMessage(MessageFlags.NLM_F_DUMP, nl80211_commands.NL80211_CMD_GET_WIPHY);
-        return new List<WiphyMessage>();
+        return _currentResult.Cast<NetlinkMessage<nl80211_attrs>>().ToList();
     }
 }
