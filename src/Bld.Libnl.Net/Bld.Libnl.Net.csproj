@@ -4,7 +4,19 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>Roman Buldygin</Authors>
+    <Company>Bld</Company>
+    <Title>Libnl and Nl80211 C# wrapper</Title>
+    <PackageId>Bld.Libnl.Net</PackageId>
+    <PackageProjectUrl>https://github.com/buldo/Bld.Libnl.Net</PackageProjectUrl>
+    <Description>Attention!!!
+This is not production ready project. Just experimental.
+See sources to make smth better</Description>
+    <RepositoryUrl>https://github.com/buldo/Bld.Libnl.Net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>libnl;nl80211</PackageTags>
   </PropertyGroup>
 
 </Project>
