@@ -99,4 +99,12 @@ public class Nl80211Wrapper
         SendMessage(MessageFlags.NLM_F_DUMP, nl80211_commands.NL80211_CMD_GET_WIPHY);
         return _currentResult.Cast<NetlinkMessage<nl80211_attrs>>().ToList();
     }
+
+    public List<NetlinkMessage<nl80211_attrs>> DumpInterfaces()
+    {
+        _currentResult = new List<object>();
+        _currentCommand = nl80211_commands.NL80211_CMD_GET_INTERFACE;
+        SendMessage(MessageFlags.NLM_F_DUMP, nl80211_commands.NL80211_CMD_GET_INTERFACE);
+        return _currentResult.Cast<NetlinkMessage<nl80211_attrs>>().ToList();
+    }
 }
