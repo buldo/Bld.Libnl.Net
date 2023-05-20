@@ -51,7 +51,7 @@ public static class NetlinkMessageParser
                             };
                             if (attribute != null)
                             {
-                                message.Attributes.Add(attribute);
+                                message.AddAttribute(attribute);
                             }
                         }
                     }

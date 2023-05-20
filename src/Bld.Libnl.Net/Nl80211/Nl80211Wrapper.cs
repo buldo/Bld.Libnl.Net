@@ -76,7 +76,7 @@ public class Nl80211Wrapper
     {
         var message = NetlinkMessageParser.Parse<nl80211_attrs>(msg);
 
-        foreach (var attribute in message.Attributes)
+        foreach (var (_,attribute) in message.Attributes)
         {
             Console.WriteLine($"{attribute.Id} : {attribute.GetValue()}");
         }
