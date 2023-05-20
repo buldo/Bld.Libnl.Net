@@ -42,7 +42,9 @@ public static class NetlinkMessageParser
                             var attribute = policy.Type switch
                             {
                                 NetlinkAttributeType.NLA_U8 => ParseU8(attributePtr, idValue),
+                                NetlinkAttributeType.NLA_U16 => ParseU16(attributePtr, idValue),
                                 NetlinkAttributeType.NLA_U32 => ParseU32(attributePtr, idValue),
+                                NetlinkAttributeType.NLA_U64 => ParseU64(attributePtr, idValue),
                                 NetlinkAttributeType.NLA_STRING => ParseString(attributePtr, idValue),
                                 NetlinkAttributeType.NLA_NUL_STRING => ParseString(attributePtr, idValue),
                                 _ => null
@@ -67,10 +69,22 @@ public static class NetlinkMessageParser
         return new ValueAttribute<byte, T>(id, NetlinkAttributeType.NLA_U8, value);
     }
 
+    private static unsafe IMessageAttribute<T> ParseU16<T>(nlattr* attributePtr, T id)
+    {
+        var value = nla_get_u16(attributePtr);
+        return new ValueAttribute<UInt16, T>(id, NetlinkAttributeType.NLA_U16, value);
+    }
+
     private static unsafe IMessageAttribute<T> ParseU32<T>(nlattr* attributePtr, T id)
     {
         var value = nla_get_u32(attributePtr);
         return new ValueAttribute<UInt32, T>(id, NetlinkAttributeType.NLA_U32, value);
+    }
+
+    private static unsafe IMessageAttribute<T> ParseU64<T>(nlattr* attributePtr, T id)
+    {
+        var value = nla_get_u64(attributePtr);
+        return new ValueAttribute<UInt64, T>(id, NetlinkAttributeType.NLA_U64, value);
     }
 
     private static unsafe IMessageAttribute<T> ParseString<T>(nlattr* attributePtr, T id)

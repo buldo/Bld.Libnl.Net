@@ -238,6 +238,9 @@ public static partial class LibnlPInvoke
         return Utf8StringMarshaller.ConvertToManaged(strRef);
     }
 
+    [LibraryImport(LibName, EntryPoint = "nla_get_u16")]
+    public static unsafe partial UInt16 nla_get_u16(nlattr* nla);
+
     /// <summary>
     /// Return payload of 32 bit integer attribute.
     /// </summary>
@@ -245,6 +248,9 @@ public static partial class LibnlPInvoke
     /// <returns>Payload as 32 bit integer.</returns>
     [LibraryImport(LibName, EntryPoint = "nla_get_u32")]
     public static unsafe partial UInt32 nla_get_u32(nlattr* nla);
+
+    [LibraryImport(LibName, EntryPoint = "nla_get_u64")]
+    public static unsafe partial UInt64 nla_get_u64(nlattr* nla);
 
     /// <summary>
     /// Callback actions
