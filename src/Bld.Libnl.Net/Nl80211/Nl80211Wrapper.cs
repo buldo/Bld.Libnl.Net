@@ -14,7 +14,7 @@ public class Nl80211Wrapper
     private readonly LibNlSocketHandle _libNlSocket;
     private readonly int _familyIdentifier;
 
-    private bool _isCurrentCommandRunning = false;
+    private readonly ManualResetEventSlim _isCurrentCommandRunning = new ManualResetEventSlim(false);
 
     private List<object> _currentResult;
     private nl80211_commands _currentCommand;
@@ -63,10 +63,10 @@ public class Nl80211Wrapper
             (byte)cmd,
             0);
 
+        _isCurrentCommandRunning.Set();
         _libNlSocket.SendAuto(messageHandle);
 
-        _isCurrentCommandRunning = true;
-        while (_isCurrentCommandRunning)
+        while (_isCurrentCommandRunning.IsSet)
         {
             _libNlSocket.RecvMsgsDefault();
         }
@@ -75,20 +75,20 @@ public class Nl80211Wrapper
     private int SocketCallback(IntPtr msg, IntPtr arg)
     {
         var message = NetlinkMessageParser.Parse<nl80211_attrs>(msg);
-
-        foreach (var (_,attribute) in message.Attributes)
-        {
-            Console.WriteLine($"{attribute.Id} : {attribute.GetValue()}");
-        }
-        Console.WriteLine("Received");
+        _currentResult.Add(message);
+        // foreach (var (_,attribute) in message.Attributes)
+        // {
+        //     Console.WriteLine($"{attribute.Id} : {attribute.GetValue()}");
+        // }
+        // Console.WriteLine("Received");
         //Console.WriteLine($"Name: {wiPhy.WiphyName}; Id:{wiPhy.Wiphy}");
         return (int)nl_cb_action.NL_SKIP;
     }
 
     private int FinishSocketCallback(IntPtr msg, IntPtr arg)
     {
-        _isCurrentCommandRunning = false;
-        Console.WriteLine("Finish");
+        _isCurrentCommandRunning.Reset();
+        //Console.WriteLine("Finish");
         return (int)nl_cb_action.NL_SKIP;
     }
 
