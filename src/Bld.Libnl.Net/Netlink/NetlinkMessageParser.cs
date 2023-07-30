@@ -35,6 +35,7 @@ public static class NetlinkMessageParser
                 var attributePtr = attributesArray[intIdValue];
                 if ( attributePtr != null)
                 {
+                    Console.WriteLine((nl80211_attrs)intIdValue);
                     if (typeof(TAttributeIdType) == typeof(nl80211_attrs))
                     {
                         if (NlaPolicies.nl80211_policy.TryGetValue((nl80211_attrs)intIdValue, out var policy))
@@ -47,6 +48,7 @@ public static class NetlinkMessageParser
                                 NetlinkAttributeType.NLA_U64 => ParseU64(attributePtr, idValue),
                                 NetlinkAttributeType.NLA_STRING => ParseString(attributePtr, idValue),
                                 NetlinkAttributeType.NLA_NUL_STRING => ParseString(attributePtr, idValue),
+                                NetlinkAttributeType.NLA_NESTED_IFTYPES => ParseNestedIfTypes(attributePtr, idValue),
                                 _ => null
                             };
                             if (attribute != null)
@@ -91,5 +93,33 @@ public static class NetlinkMessageParser
     {
         var value = nla_get_stringToString(attributePtr);
         return new ValueAttribute<string?, T>(id, NetlinkAttributeType.NLA_STRING, value);
+    }
+
+    private static unsafe IMessageAttribute<T> ParseNestedIfTypes<T>(nlattr* attributePtr, T id)
+    {
+        // printf("\tSupported interface modes:\n");
+        // nla_for_each_nested(nl_mode, tb_msg[NL80211_ATTR_SUPPORTED_IFTYPES], rem_mode)
+        //     printf("\t\t * %s\n", iftype_name(nla_type(nl_mode)));
+        
+        
+        // pos	loop counter, set to current attribute
+        // nla	attribute containing the nested attributes
+        // rem	initialized to len, holds bytes currently remaining in stream
+        // nla_for_each_nested(pos, nla, rem)
+        //      for (pos = nla_data(nla), rem = nla_len(nla); nla_ok(pos, rem); pos = nla_next(pos, &(rem)))
+
+        List<string> modes = new List<string>();
+        void* pos = null;
+        int rem = -1;
+        for (pos = nla_data(attributePtr), rem = nla_len(attributePtr); 
+             nla_ok((nlattr*)pos, rem) != 0; 
+             pos = nla_next((nlattr*)pos, &(rem)))
+        {
+            var nlaType = nla_type((nlattr*)pos);
+            var mode = IfModes.ifmodes[nlaType];
+            modes.Add(mode);
+        }
+
+        return new ValueAttribute<string[], T>(id, NetlinkAttributeType.NLA_NESTED_ARRAY, modes.ToArray());
     }
 }

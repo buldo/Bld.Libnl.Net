@@ -214,8 +214,37 @@ public static partial class LibnlPInvoke
     /// <param name="nla">Attribute</param>
     /// <returns>Type of attribute</returns>
     [LibraryImport(LibName, EntryPoint = "nla_type")]
-    public static unsafe partial NetlinkAttributeType nla_type(nlattr* nla);
+    public static unsafe partial int nla_type(nlattr* nla);
 
+    [LibraryImport(LibName, EntryPoint = "nla_data")]
+    public static unsafe partial void* nla_data(nlattr* nla);
+    
+    /// <summary>
+    /// Length of payload
+    /// </summary>
+    /// <param name="nla">netlink attribute</param>
+    /// <returns></returns>
+    [LibraryImport(LibName, EntryPoint = "nla_len")]
+    public static unsafe partial int nla_len(nlattr* nla);
+
+    /// <summary>
+    /// Check if the netlink attribute fits into the remaining bytes
+    /// </summary>
+    /// <param name="nla">netlink attribute</param>
+    /// <param name="remaining">number of bytes remaining in attribute stream</param>
+    /// <returns></returns>
+    [LibraryImport(LibName, EntryPoint = "nla_ok")]
+    public static unsafe partial int nla_ok(nlattr* nla, int remaining);
+        
+    /// <summary>
+    /// next netlink attribute in attribute stream
+    /// </summary>
+    /// <param name="nla">netlink attribute</param>
+    /// <param name="remaining">number of bytes remaining in attribute stream</param>
+    /// <returns>Returns the next netlink attribute in the attribute stream and decrements remaining by the size of the current attribute.</returns>
+    [LibraryImport(LibName, EntryPoint = "nla_next")]
+    public static unsafe partial nlattr* nla_next(nlattr* nla, int *remaining);
+    
     /// <summary>
     /// Return value of 8 bit integer attribute.
     /// </summary>

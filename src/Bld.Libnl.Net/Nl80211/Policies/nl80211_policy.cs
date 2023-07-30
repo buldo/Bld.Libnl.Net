@@ -7,6 +7,7 @@ public static partial class NlaPolicies
 {
     public static Dictionary<nl80211_attrs, NlaPolicyDescription> nl80211_policy = new()
     {
+        [nl80211_attrs.NL80211_ATTR_SUPPORTED_IFTYPES] = new(NLA_NESTED_IFTYPES),
         //[0] = {  .strict_start_type = NL80211_ATTR_HE_OBSS_PD },
         [nl80211_attrs.NL80211_ATTR_WIPHY] = new(NLA_U32),
         [nl80211_attrs.NL80211_ATTR_WIPHY_NAME] = new(NLA_NUL_STRING),

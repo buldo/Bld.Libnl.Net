@@ -22,4 +22,7 @@ public enum NetlinkAttributeType
     NLA_REJECT,
     NLA_BE16,
     NLA_BE32,
+    
+    // Custom
+    NLA_NESTED_IFTYPES,
 };
