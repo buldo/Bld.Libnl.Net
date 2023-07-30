@@ -35,7 +35,7 @@ public static class NetlinkMessageParser
                 var attributePtr = attributesArray[intIdValue];
                 if ( attributePtr != null)
                 {
-                    Console.WriteLine((nl80211_attrs)intIdValue);
+                    // Console.WriteLine((nl80211_attrs)intIdValue);
                     if (typeof(TAttributeIdType) == typeof(nl80211_attrs))
                     {
                         if (NlaPolicies.nl80211_policy.TryGetValue((nl80211_attrs)intIdValue, out var policy))
@@ -108,7 +108,7 @@ public static class NetlinkMessageParser
         // nla_for_each_nested(pos, nla, rem)
         //      for (pos = nla_data(nla), rem = nla_len(nla); nla_ok(pos, rem); pos = nla_next(pos, &(rem)))
 
-        List<string> modes = new List<string>();
+        List<IfMode> modes = new List<IfMode>();
         void* pos = null;
         int rem = -1;
         for (pos = nla_data(attributePtr), rem = nla_len(attributePtr); 
@@ -116,10 +116,10 @@ public static class NetlinkMessageParser
              pos = nla_next((nlattr*)pos, &(rem)))
         {
             var nlaType = nla_type((nlattr*)pos);
-            var mode = IfModes.ifmodes[nlaType];
+            var mode = (IfMode)nlaType;
             modes.Add(mode);
         }
 
-        return new ValueAttribute<string[], T>(id, NetlinkAttributeType.NLA_NESTED_ARRAY, modes.ToArray());
+        return new ValueAttribute<IfMode[], T>(id, NetlinkAttributeType.NLA_NESTED_ARRAY, modes.ToArray());
     }
 }

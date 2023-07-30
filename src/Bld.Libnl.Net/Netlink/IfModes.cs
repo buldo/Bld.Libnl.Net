@@ -1,20 +1,18 @@
 namespace Bld.Libnl.Net.Netlink;
 
-internal static class IfModes
+public enum IfMode
 {
-    public static readonly string[] ifmodes = {
-        "unspecified",
-        "IBSS",
-        "managed",
-        "AP",
-        "AP/VLAN",
-        "WDS",
-        "monitor",
-        "mesh point",
-        "P2P-client",
-        "P2P-GO",
-        "P2P-device",
-        "outside context of a BSS",
-        "NAN",
-    };
+    Unspecified = 0,
+    Ibss,
+    Managed,
+    Ap,
+    ApVlan,
+    Wds,
+    Monitor,
+    MeshPoint,
+    P2pClient,
+    P2pGO,
+    P2pDevice,
+    OutsideContextOfaBss,
+    Nan
 }
